@@ -3,8 +3,8 @@
 <br>
 <p align='center'>
   <br/>
-  <img src="https://github.com/richteague/exopopulation/blob/main/exopopulation.gif" width="900" height="450"><br/>
-  <br>
+  <img src="https://github.com/richteague/exopopulation/blob/main/exopopulation.gif" width="600" height="300">
+  <br/>
 </p>
 
 
