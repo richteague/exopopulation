@@ -43,7 +43,7 @@ class planet_marker:
         self._outline_start_alpha = 1
         self._outline_final_alpha = 0
         self._outline_start_size = 35
-        self._outline_final_size = 40
+        self._outline_final_size = 45
         self._outline_fade_frames = fade_outline
 
         # number of frames which the planet has been plotted in
