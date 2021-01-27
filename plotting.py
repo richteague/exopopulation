@@ -119,9 +119,11 @@ class timeline:
             animation.
         extend (optional[float]): Extend the timeline to earlier years by this
             amount.
+        inverted (optional[bool]): If True, invert axes colors to white for a
+            black background.
     """
 
-    def __init__(self, years, extend=1.0):
+    def __init__(self, years, extend=1.0, inverted=False):
         self.years = years
         self.unique_years = np.unique(np.round(years))
         self.labeled_years = np.arange(1980, 2030, 5)
@@ -135,17 +137,18 @@ class timeline:
         self._extend = extend
 
         # marker
-        self._color = 'k'
-        self._edge_color = 'w'
+        self._color = 'w' if inverted else 'k'
+        self._edge_color = 'k' if inverted else 'w'
         self._edge_width = 1.5
         self._size = 20
 
     def plot_year_marker(self, ax, year=None):
         """Plot the marker."""
-        ax.plot([self.years[0], self.years[-1]], [0.5, 0.5], color='k', lw=1.0)
+        ax.plot([self.years[0], self.years[-1]], [0.5, 0.5],
+                color=self._color, lw=1.0)
         ax.set_xlim(self.years[0] - self._extend - 0.1, self.years[-1] + 0.1)
         ax.text(0.5, 1.4, r'${\bf Year}$', ha='center', va='bottom',
-                fontsize=7, transform=ax.transAxes)
+                fontsize=7, transform=ax.transAxes, color=self._color)
         ax.set_ylim(0, 1)
         ax.axis('off')
 
@@ -153,18 +156,20 @@ class timeline:
         for i in np.arange(self._smooth):
             _fraction = 1.0 - (i / self._smooth)
             ax.plot([self.years[0] - _fraction * self._extend, self.years[-1]],
-                    [0.5, 0.5], color='k', alpha=(1.2 / self._smooth), lw=1.0)
+                    [0.5, 0.5], color=self._color, alpha=(1.2 / self._smooth),
+                    lw=1.0)
 
         # mark the individual years
         for year_marker in self.unique_years:
             if year_marker in self.labeled_years:
                 ax.text(year_marker, 0.75, '{}'.format(int(year_marker)),
-                        va='bottom', ha='center', fontsize=7)
-                ax.axvline(year_marker, ymin=0.45, ymax=0.55, color='k',
-                           lw=1.0)
+                        va='bottom', ha='center', fontsize=7,
+                        color=self._color)
+                ax.axvline(year_marker, color=self._color,
+                           ymin=0.45, ymax=0.55, lw=1.0)
             else:
-                ax.axvline(year_marker, ymin=0.475, ymax=0.525, color='k',
-                           lw=1.0)
+                ax.axvline(year_marker, color=self._color,
+                           ymin=0.475, ymax=0.525, lw=1.0)
 
         # add the year marker
         if year is not None:
